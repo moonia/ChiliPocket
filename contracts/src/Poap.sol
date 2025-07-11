@@ -8,16 +8,15 @@ contract PoapNFT is ERC721URIStorage, Ownable {
     uint256 public tokenCounter;
     mapping(address => bool) public hasClaimed;
 
-    constructor() ERC721("ChilizPOAP", "CPOAP") {
+    constructor() ERC721("ChilizPOAP", "CPOAP") Ownable(msg.sender) {
         tokenCounter = 0;
     }
-
-    function claimPOAP(string token) public {
+    function claimPOAP(string memory tokenURI) public {
         require(!hasClaimed[msg.sender], "Already claimed");
 
         uint256 newTokenId = tokenCounter;
         _safeMint(msg.sender, newTokenId);
-        _setTokenURI(newTokenId, "ipfs://QmXYZ.../metadata.json");
+        _setTokenURI(newTokenId, tokenURI); // ipfs://QmXYZ.../metadata.json
 
         hasClaimed[msg.sender] = true;
         tokenCounter++;

@@ -12,7 +12,8 @@ contract POAPTest is Test {
     }
 
     function testMint() public {
-        poap.claimPOAP(address(1));
+        vm.prank(address(1));
+        poap.claimPOAP("ipfs://QmXYZ.../metadata.json");
         assertEq(poap.ownerOf(0), address(1));
     }
 }
