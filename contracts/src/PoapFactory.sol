@@ -40,4 +40,8 @@ contract PoapFactory is ERC721URIStorage {
     function getPoap(uint256 poapId) public view returns (PoapMetadata memory) {
         return poaps[poapId];
     }
+
+    function poapExists(uint256 poapId) public view returns (bool) {
+        return poapId < nextPoapId;
+    }
 }
