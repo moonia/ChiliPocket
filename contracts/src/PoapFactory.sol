@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract PoapFactory is ERC721URIStorage, Ownable {
     uint256 public nextPoapId;
-    uint256 public nextClaimId;
+    uint256 public nextClaimId = 1;
 
     struct PoapMetadata {
         string name;

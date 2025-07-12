@@ -8,13 +8,14 @@ contract POAPFactoryTest is Test {
     PoapFactory public poap;
 
     function setUp() public {
+        vm.prank(address(1));
         poap = new PoapFactory();
     }
 
     function testMint() public {
-        vm.prank(address(1));
+        vm.startPrank(address(1));
         poap.createPoap("NewPoap", "Test", "ipfs://QmXYZ", "ipfs://QmXYZ/metadata.json", 1234567);
-        poap.claimPoap(123, "ipfs://QmXYZ.../metadata.json");
+        poap.claimPoap(0, "ipfs://QmXYZ.../metadata.json");
 
         assertEq(poap.ownerOf(0), address(1));
 
@@ -24,5 +25,6 @@ contract POAPFactoryTest is Test {
         assertEq(metadata.imageIPFS, "ipfs://QmXYZ");
         assertEq(metadata.durability, 1234567);
         assertEq(poap.tokenURI(0), "ipfs://QmXYZ/metadata.json");
+        vm.stopPrank();
     }
 }
