@@ -24,10 +24,10 @@ contract PoapFactory is ERC721URIStorage {
         string memory description,
         string memory imageIPFS,
         string memory tokenURI,
-        uint256 memory durability
+        uint256 durability
     ) public {
         uint256 poapId = nextPoapId;
-        poaps[poapId] = PoapMetadata(name, description, imageIPFS);
+        poaps[poapId] = PoapMetadata(name, description, imageIPFS, durability);
 
         _mint(msg.sender, poapId);
         _setTokenURI(poapId, tokenURI);
