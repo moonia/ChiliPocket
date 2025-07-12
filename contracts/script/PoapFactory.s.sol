@@ -2,17 +2,17 @@
 pragma solidity ^0.8.23;
 
 import {Script} from "forge-std/Script.sol";
-import {PoapNFT} from "../src/Poap.sol";
+import {PoapFactory} from "../src/PoapFactory.sol";
 
 contract PoapScript is Script {
-    PoapNFT public poapnft;
+    PoapFactory public poapnft;
 
     function setUp() public {}
 
     function run() public {
         vm.startBroadcast();
 
-        poapnft = new PoapNFT();
+        poapnft = new PoapFactory();
 
         vm.stopBroadcast();
     }
