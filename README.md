@@ -38,9 +38,14 @@ To run the project locally, simply clone the repository and follow these steps.
 - NFC-enabled device
 
 ### Contracts 
+#### Dependencies
+
+Before writing or deploying your contracts, make sure to install the following libraries:
 
 ```
-// todo
+forge install foundry-rs/forge-std
+forge install OpenZeppelin/openzeppelin-foundry-upgrades
+forge install OpenZeppelin/openzeppelin-contracts-upgradeable
 ```
 
 Smart contracts can be deployed using Foundry.
