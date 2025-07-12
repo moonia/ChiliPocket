@@ -14,6 +14,7 @@ contract POAPFactoryTest is Test {
     function testMint() public {
         vm.prank(address(1));
         poap.createPoap("NewPoap", "Test", "ipfs://QmXYZ", "ipfs://QmXYZ/metadata.json", 1234567);
+        poap.claimPoap(123, "ipfs://QmXYZ.../metadata.json");
 
         assertEq(poap.ownerOf(0), address(1));
 
