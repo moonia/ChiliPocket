@@ -17,9 +17,21 @@ contract PoapFactory is ERC721URIStorage, Ownable {
 
     mapping(uint256 => PoapMetadata) public poaps;
     mapping(address => mapping(uint256 => bool)) public hasClaimed;
+    mapping(uint256 => uint256) public claimedFrom;
+    mapping(uint256 => uint256) public poapClaimsCount;
 
-    event PoapCreated(uint256 indexed poapId, address indexed owner, string name, string description, string imageIPFS);
-    event PoapClaimed(uint256 indexed poapId, address indexed claimer);
+    event PoapCreated(
+        uint256 indexed poapId,
+        address indexed owner,
+        string name,
+        string description,
+        string imageIPFS
+    );
+    event PoapClaimed(
+        uint256 indexed poapId,
+        address indexed claimer,
+        uint256 indexed claimId
+    );
 
     constructor() ERC721("POAP", "POAP") Ownable(msg.sender) {}
 
@@ -27,14 +39,14 @@ contract PoapFactory is ERC721URIStorage, Ownable {
         string memory name,
         string memory description,
         string memory imageIPFS,
-        string memory tokenURI,
+        string memory metadataURI,
         uint256 durability
     ) public onlyOwner {
         uint256 poapId = nextPoapId;
         poaps[poapId] = PoapMetadata(name, description, imageIPFS, durability);
 
         _mint(msg.sender, poapId);
-        _setTokenURI(poapId, tokenURI);
+        _setTokenURI(poapId, metadataURI);
 
         emit PoapCreated(poapId, msg.sender, name, description, imageIPFS);
 
@@ -49,16 +61,22 @@ contract PoapFactory is ERC721URIStorage, Ownable {
         return poapId < nextPoapId;
     }
 
-    function claimPoap(uint256 poapId, string memory tokenURI) public {
+    function claimPoap(uint256 poapId) public {
         require(poapExists(poapId), "POAP does not exist");
         require(!hasClaimed[msg.sender][poapId], "Already claimed");
+        require(poapClaimsCount[poapId] < poaps[poapId].durability, "Claim limit reached");
 
         uint256 newTokenId = nextClaimId;
         _safeMint(msg.sender, newTokenId);
-        _setTokenURI(newTokenId, tokenURI);
+
+        string memory poapMetadataURI = tokenURI(poapId);
+        _setTokenURI(newTokenId, poapMetadataURI);
 
         hasClaimed[msg.sender][poapId] = true;
-        emit PoapClaimed(poapId, msg.sender);
+        claimedFrom[newTokenId] = poapId;
+        poapClaimsCount[poapId]++;
+
+        emit PoapClaimed(poapId, msg.sender, newTokenId);
 
         nextClaimId++;
     }
