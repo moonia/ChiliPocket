@@ -1,7 +1,9 @@
 const Navbar = () => {
   return (
     <nav className="flex justify-between items-center px-6 py-4">
-      <div className="text-xl font-bold">Logo</div>
+      <div className="flex items-center">
+        <img src="/chili-pocket.png" alt="ChiliPocket Logo" className="h-16 w-auto" />
+      </div>
       <ul className="flex gap-6">
         <li><a href="#" className="hover:underline">Home</a></li>
         <li><a href="#" className="hover:underline">Collections</a></li>
