@@ -78,10 +78,7 @@ export class ContractService {
     return poaps;
   }
 
-  public filterPoapsByOwner(poaps: POAP[], ownerAddress: string): POAP[] {
-    console.log('Filtering POAPs for owner:', ownerAddress);
-    console.log('Total POAPs to filter:', poaps.length);
-    
+  public filterPoapsByOwner(poaps: POAP[], ownerAddress: string): POAP[] {    
     const filteredPoaps = poaps.filter(poap => {
       const isMatch = poap.owner.toLowerCase() === ownerAddress.toLowerCase();
       if (isMatch) {
@@ -89,8 +86,6 @@ export class ContractService {
       }
       return isMatch;
     });
-    
-    console.log('Filtered POAPs count:', filteredPoaps.length);
     return filteredPoaps;
   }
 }

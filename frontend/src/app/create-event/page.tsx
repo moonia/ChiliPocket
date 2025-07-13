@@ -84,7 +84,7 @@ const CreateEventPage = () => {
       const endTimestamp = Math.floor(new Date(formData.endDate).getTime() / 1000);
 
       // Call the contract function directly using thirdweb v3 API
-      const result = await contract.call("createPoap", [
+      await contract.call("createPoap", [
         formData.name,
         formData.description,
         formData.imageIPFS,
@@ -105,7 +105,6 @@ const CreateEventPage = () => {
         maxPeople: "",
       });
       
-      console.log("Transaction result:", result);
     } catch (error) {
       console.error("Error creating event:", error);
       alert("Failed to create event. Please try again.");

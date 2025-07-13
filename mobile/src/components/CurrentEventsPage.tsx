@@ -26,17 +26,10 @@ export function CurrentEventsPage({
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMode, setFilterMode] = useState<'all' | 'new' | 'ending_soon' | 'popular'>('all');
 
-  console.log('CurrentEventsPage - allPoaps from props:', allPoaps);
-  console.log('CurrentEventsPage - myPoaps from props:', myPoaps);
-  console.log('CurrentEventsPage - isLoading from props:', isLoadingPoaps);
-  console.log('CurrentEventsPage - error from props:', poapsError);
-
   const myPoapIds = new Set(myPoaps.map(poap => poap.id.toString()));
-  
+
   const availableEvents = allPoaps.filter(poap => !myPoapIds.has(poap.id.toString()));
   
-  console.log('CurrentEventsPage - availableEvents:', availableEvents);
-
   const filteredEvents = availableEvents.filter(poap => {
     const matchesSearch = poap.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          poap.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -72,8 +65,6 @@ export function CurrentEventsPage({
         {
           text: 'Participate',
           onPress: () => {
-            // This would integrate with your contract service to participate
-            console.log('Participating in POAP:', poap.id);
             Alert.alert('Success', 'You are now participating in this event!');
           },
         },
@@ -93,8 +84,6 @@ export function CurrentEventsPage({
     if (attendanceRate > 0.5) return { label: 'Popular', color: '#f59e0b' };
     return { label: 'Available', color: '#10b981' };
   };
-
-  // This component receives fresh data through props via the parent's handlePageChange
 
   return (
     <View style={styles.container}>
