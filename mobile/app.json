@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Chilli Pocket",
-    "slug": "Chilli Pocket",
+    "name": "Chili Pocket",
+    "slug": "chili-pocket",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,8 +22,14 @@
           "trust",
           "safe",
           "rainbow",
+          "uniswap",
+          "metamask",
+          "trust",
+          "safe",
+          "rainbow",
           "uniswap"
-        ]
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -39,6 +45,11 @@
     },
     "plugins": [
       "expo-dev-client"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "48ac858d-b377-40cc-b877-60fd4ae82a3d"
+      }
+    }
   }
 }
