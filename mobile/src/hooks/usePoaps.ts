@@ -9,7 +9,8 @@ export function usePoaps(walletAddress?: string) {
 
   const contractService = ContractService.getInstance();
 
-  const fetchPoaps = async () => {
+  const fetchPoaps = async (address?: string) => {
+    const currentAddress = address || walletAddress;
     setIsLoading(true);
     setError(null);
     
@@ -17,10 +18,15 @@ export function usePoaps(walletAddress?: string) {
       const allPoaps = await contractService.getAllPoaps();
       setPoaps(allPoaps);
  
-      console.log(allPoaps);
-      if (walletAddress) {
-        const userPoaps = contractService.filterPoapsByOwner(allPoaps, walletAddress);
+      console.log('Fetched POAPs:', allPoaps);
+      console.log('Current wallet address:', currentAddress);
+      
+      if (currentAddress) {
+        const userPoaps = contractService.filterPoapsByOwner(allPoaps, currentAddress);
+        console.log('User POAPs:', userPoaps);
         setMyPoaps(userPoaps);
+      } else {
+        setMyPoaps([]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch POAPs');
@@ -33,9 +39,13 @@ export function usePoaps(walletAddress?: string) {
 
   useEffect(() => {
     if (walletAddress) {
-      fetchPoaps();
+      fetchPoaps(walletAddress);
     }
   }, [walletAddress]);
+
+  const refetch = async () => {
+    await fetchPoaps(walletAddress);
+  };
 
   return {
     poaps,
@@ -43,6 +53,6 @@ export function usePoaps(walletAddress?: string) {
     isLoading,
     error,
     fetchPoaps,
-    refetch: fetchPoaps,
+    refetch,
   };
 }
