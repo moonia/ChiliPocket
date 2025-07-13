@@ -64,6 +64,7 @@ contract PoapFactory is ERC721URIStorage, Ownable {
     }
 
     function getPoap(uint256 poapId) public view returns (PoapMetadata memory) {
+        require(poapExists(poapId), "Poap does not exist");
         return poaps[poapId];
     }
 
