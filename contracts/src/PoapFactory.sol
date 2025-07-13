@@ -14,6 +14,7 @@ contract PoapFactory is ERC721URIStorage, Ownable {
         string description;
         string imageIPFS;
         uint256 durability;
+        address owner;
     }
 
     mapping(uint256 => PoapMetadata) private poaps;
@@ -52,7 +53,7 @@ contract PoapFactory is ERC721URIStorage, Ownable {
         uint256 durability
     ) public onlyOwner {
         uint256 poapId = nextPoapId;
-        poaps[poapId] = PoapMetadata(poapId, name, description, imageIPFS, durability);
+        poaps[poapId] = PoapMetadata(poapId, name, description, imageIPFS, durability, msg.sender);
 
         _mint(msg.sender, poapId);
         _setTokenURI(poapId, metadataURI);
