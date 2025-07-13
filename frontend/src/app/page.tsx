@@ -53,6 +53,8 @@ export default function Home() {
     <main className="relative min-h-screen text-white font-sans bg-[#0f0c29] overflow-hidden">
       <ScrollProgress />
       <div className="absolute inset-0 bg-gradient-radial from-cyan-400/10 via-purple-600/10 to-transparent blur-2xl opacity-30 z-0" />
+      <div className="absolute top-[-30px] left-1/2 transform -translate-x-1/2 w-[700px] h-[500px] bg-purple-600 opacity-10 blur-3xl rounded-full z-0" />
+
       <FloatingParticles />
       <div className="relative z-10">
         <Navbar />
