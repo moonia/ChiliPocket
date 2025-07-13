@@ -8,12 +8,9 @@ const Footbar = () => {
           <div className="text-sm md:text-base">
             <h4 className="text-xs text-[#c084fc] uppercase mb-2">ChiliPocket</h4>
             <div className="flex flex-wrap gap-x-6 gap-y-3 font-medium text-gray-500">
-              <a href="#">List of POAPs</a>
               <a href="#">Submit a POAP</a>
-              <a href="#">About</a>
+              <a href="/about">About</a>
               <a href="#">Report a Security Issue</a>
-              <span className="hidden md:inline">|</span>
-              <a href="#">The Team</a>
             </div>
           </div>
 
