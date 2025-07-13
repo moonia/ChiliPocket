@@ -37,7 +37,11 @@ contract PoapFactory is ERC721URIStorage, Ownable {
     constructor() ERC721("POAP", "POAP") Ownable(msg.sender) {}
 
     function getPoaps() public view returns (PoapMetadata[] memory) {
-        return poaps;
+        PoapMetadata[] memory result = new PoapMetadata[](nextPoapId);
+        for (uint256 i = 0; i < nextPoapId; i++) {
+            result[i] = poaps[i];
+        }
+        return result;
     }
 
     function createPoap(
