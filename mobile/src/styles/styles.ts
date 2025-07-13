@@ -446,7 +446,7 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
     lineHeight: 14,
   },
-  poapDurability: {
+  poapAttendance: {
     fontSize: 10,
     color: '#6366f1',
     fontWeight: '500',
@@ -760,16 +760,54 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  durabilityBadge: {
+  attendanceBadge: {
     backgroundColor: '#6366f1',
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
   },
-  durabilityText: {
+  attendanceText: {
     fontSize: 12,
     fontWeight: '600',
     color: '#FFFFFF',
+  },
+  ownedEventCard: {
+    borderColor: '#f59e0b',
+    borderWidth: 2,
+    shadowColor: '#f59e0b',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  statusContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    gap: 4,
+  },
+  ownerBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fef3c7',
+    borderRadius: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    gap: 2,
+  },
+  ownerBadgeText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#d97706',
+  },
+  ownerStatsContainer: {
+    backgroundColor: '#f3f4f6',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  ownerStatsText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#374151',
   },
   gridSkeletonCard: {
     backgroundColor: '#f1f5f9',

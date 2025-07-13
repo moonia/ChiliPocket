@@ -20,7 +20,7 @@ export function OwnedPage({
   refetch: refetchPoaps 
 }: OwnedPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterMode, setFilterMode] = useState<'all' | 'recent' | 'high_durability'>('all');
+  const [filterMode, setFilterMode] = useState<'all' | 'recent' | 'owned_events'>('all');
 
   console.log('OwnedPage - myPoaps from props:', myPoaps);
   console.log('OwnedPage - isLoading from props:', isLoadingPoaps);
@@ -36,9 +36,12 @@ export function OwnedPage({
     
     switch (filterMode) {
       case 'recent':
-        return true;
-      case 'high_durability':
-        return Number(poap.durability) > 50;
+        const now = Date.now() / 1000;
+        const weekAgo = now - (7 * 24 * 60 * 60);
+        return Number(poap.startDate) > weekAgo;
+      case 'owned_events':
+        // Filter to show only POAPs where the user is the owner
+        return poap.owner.toLowerCase() === myPoaps.find(p => p.id === poap.id)?.owner?.toLowerCase();
       default:
         return true;
     }
@@ -49,15 +52,19 @@ export function OwnedPage({
 
   const getStatsData = () => {
     const totalPoaps = myPoaps.length;
-    const avgDurability = myPoaps.length > 0 
-      ? Math.round(myPoaps.reduce((sum, poap) => sum + Number(poap.durability), 0) / myPoaps.length)
+    const avgAttendance = myPoaps.length > 0 
+      ? Math.round(myPoaps.reduce((sum, poap) => sum + Number(poap.currentPeopleAttending), 0) / myPoaps.length)
       : 0;
-    const highDurabilityCount = myPoaps.filter(poap => Number(poap.durability) > 50).length;
+    const recentCount = myPoaps.filter(poap => {
+      const now = Date.now() / 1000;
+      const weekAgo = now - (7 * 24 * 60 * 60);
+      return Number(poap.startDate) > weekAgo;
+    }).length;
     
-    return { totalPoaps, avgDurability, highDurabilityCount };
+    return { totalPoaps, avgAttendance, recentCount };
   };
 
-  const { totalPoaps, avgDurability, highDurabilityCount } = getStatsData();
+  const { totalPoaps, avgAttendance, recentCount } = getStatsData();
 
   // This component receives fresh data through props via the parent's handlePageChange
 
@@ -80,12 +87,12 @@ export function OwnedPage({
           <Text style={styles.statLabel}>Total POAPs</Text>
         </View>
         <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{avgDurability}</Text>
-          <Text style={styles.statLabel}>Avg Durability</Text>
+          <Text style={styles.statNumber}>{avgAttendance}</Text>
+          <Text style={styles.statLabel}>Avg Attendance</Text>
         </View>
         <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{highDurabilityCount}</Text>
-          <Text style={styles.statLabel}>High Quality</Text>
+          <Text style={styles.statNumber}>{recentCount}</Text>
+          <Text style={styles.statLabel}>Recent Events</Text>
         </View>
       </View>
 
@@ -121,11 +128,11 @@ export function OwnedPage({
             </Text>
           </TouchableOpacity>
           <TouchableOpacity 
-            style={[styles.filterChip, filterMode === 'high_durability' && styles.filterChipActive]}
-            onPress={() => setFilterMode('high_durability')}
+            style={[styles.filterChip, filterMode === 'owned_events' && styles.filterChipActive]}
+            onPress={() => setFilterMode('owned_events')}
           >
-            <Text style={[styles.filterChipText, filterMode === 'high_durability' && styles.filterChipTextActive]}>
-              High Quality
+            <Text style={[styles.filterChipText, filterMode === 'owned_events' && styles.filterChipTextActive]}>
+              My Events
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -167,9 +174,9 @@ export function OwnedPage({
                 />
                 <Text style={styles.gridPoapName} numberOfLines={2}>{poap.name}</Text>
                 <View style={styles.gridPoapFooter}>
-                  <View style={styles.durabilityBadge}>
-                    <Text style={styles.durabilityText}>
-                      {poap.durability.toString()}
+                  <View style={styles.attendanceBadge}>
+                    <Text style={styles.attendanceText}>
+                      {poap.currentPeopleAttending.toString()}/{poap.maxPeople.toString()}
                     </Text>
                   </View>
                   <Ionicons name="chevron-forward" size={16} color="#999" />

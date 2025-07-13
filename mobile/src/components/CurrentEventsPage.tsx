@@ -11,6 +11,7 @@ interface CurrentEventsPageProps {
   isLoading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
+  userAddress?: string;
 }
 
 export function CurrentEventsPage({ 
@@ -19,10 +20,11 @@ export function CurrentEventsPage({
   myPoaps, 
   isLoading: isLoadingPoaps, 
   error: poapsError, 
-  refetch: refetchPoaps 
+  refetch: refetchPoaps,
+  userAddress 
 }: CurrentEventsPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterMode, setFilterMode] = useState<'all' | 'new' | 'ending_soon' | 'high_durability'>('all');
+  const [filterMode, setFilterMode] = useState<'all' | 'new' | 'ending_soon' | 'popular'>('all');
 
   console.log('CurrentEventsPage - allPoaps from props:', allPoaps);
   console.log('CurrentEventsPage - myPoaps from props:', myPoaps);
@@ -43,11 +45,16 @@ export function CurrentEventsPage({
     
     switch (filterMode) {
       case 'new':
-        return true; // Could implement date-based filtering if timestamps are available
+        const now = Date.now() / 1000; // Convert to seconds
+        const dayAgo = now - (24 * 60 * 60); // 24 hours ago
+        return Number(poap.startDate) > dayAgo;
       case 'ending_soon':
-        return true; // Could implement end date filtering if available
-      case 'high_durability':
-        return Number(poap.durability) > 50;
+        const nowEndingSoon = Date.now() / 1000;
+        const nextWeek = nowEndingSoon + (7 * 24 * 60 * 60); // Next 7 days
+        return Number(poap.endDate) < nextWeek && Number(poap.endDate) > nowEndingSoon;
+      case 'popular':
+        const attendanceRate = Number(poap.currentPeopleAttending) / Number(poap.maxPeople);
+        return attendanceRate > 0.5; // More than 50% attendance
       default:
         return true;
     }
@@ -75,11 +82,16 @@ export function CurrentEventsPage({
   };
 
   const getEventStatus = (poap: POAP) => {
-    const durability = Number(poap.durability);
-    if (durability > 80) return { label: 'Premium', color: '#10b981' };
-    if (durability > 50) return { label: 'High Quality', color: '#3b82f6' };
-    if (durability > 20) return { label: 'Standard', color: '#f59e0b' };
-    return { label: 'Limited', color: '#ef4444' };
+    const now = Date.now() / 1000;
+    const startDate = Number(poap.startDate);
+    const endDate = Number(poap.endDate);
+    const attendanceRate = Number(poap.currentPeopleAttending) / Number(poap.maxPeople);
+    
+    if (endDate < now) return { label: 'Ended', color: '#6b7280' };
+    if (startDate > now) return { label: 'Upcoming', color: '#3b82f6' };
+    if (attendanceRate > 0.8) return { label: 'Almost Full', color: '#ef4444' };
+    if (attendanceRate > 0.5) return { label: 'Popular', color: '#f59e0b' };
+    return { label: 'Available', color: '#10b981' };
   };
 
   // This component receives fresh data through props via the parent's handlePageChange
@@ -150,11 +162,11 @@ export function CurrentEventsPage({
             </Text>
           </TouchableOpacity>
           <TouchableOpacity 
-            style={[styles.filterChip, filterMode === 'high_durability' && styles.filterChipActive]}
-            onPress={() => setFilterMode('high_durability')}
+            style={[styles.filterChip, filterMode === 'popular' && styles.filterChipActive]}
+            onPress={() => setFilterMode('popular')}
           >
-            <Text style={[styles.filterChipText, filterMode === 'high_durability' && styles.filterChipTextActive]}>
-              Premium
+            <Text style={[styles.filterChipText, filterMode === 'popular' && styles.filterChipTextActive]}>
+              Popular
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -187,10 +199,11 @@ export function CurrentEventsPage({
           <View style={styles.eventsContainer}>
             {filteredEvents.map((poap) => {
               const status = getEventStatus(poap);
+              const isOwner = userAddress && poap.owner.toLowerCase() === userAddress.toLowerCase();
               return (
                 <TouchableOpacity 
                   key={poap.id.toString()} 
-                  style={styles.eventCard}
+                  style={[styles.eventCard, isOwner && styles.ownedEventCard]}
                   onPress={() => onPoapPress(poap)}
                   activeOpacity={0.8}
                 >
@@ -202,8 +215,16 @@ export function CurrentEventsPage({
                   <View style={styles.eventContent}>
                     <View style={styles.eventHeader}>
                       <Text style={styles.eventName} numberOfLines={2}>{poap.name}</Text>
-                      <View style={[styles.statusBadge, { backgroundColor: status.color }]}>
-                        <Text style={styles.statusText}>{status.label}</Text>
+                      <View style={styles.statusContainer}>
+                        {isOwner && (
+                          <View style={styles.ownerBadge}>
+                            <Ionicons name="crown" size={12} color="#f59e0b" />
+                            <Text style={styles.ownerBadgeText}>Owner</Text>
+                          </View>
+                        )}
+                        <View style={[styles.statusBadge, { backgroundColor: status.color }]}>
+                          <Text style={styles.statusText}>{status.label}</Text>
+                        </View>
                       </View>
                     </View>
                     <Text style={styles.eventDescription} numberOfLines={3}>
@@ -212,28 +233,36 @@ export function CurrentEventsPage({
                     <View style={styles.eventFooter}>
                       <View style={styles.eventStats}>
                         <View style={styles.eventStat}>
-                          <Ionicons name="shield-outline" size={16} color="#6366f1" />
+                          <Ionicons name="people-outline" size={16} color="#6366f1" />
                           <Text style={styles.eventStatText}>
-                            Durability: {poap.durability.toString()}
+                            {poap.currentPeopleAttending.toString()}/{poap.maxPeople.toString()} attending
                           </Text>
                         </View>
                         <View style={styles.eventStat}>
-                          <Ionicons name="finger-print-outline" size={16} color="#6366f1" />
+                          <Ionicons name="time-outline" size={16} color="#6366f1" />
                           <Text style={styles.eventStatText}>
-                            ID: #{poap.id.toString()}
+                            Ends: {new Date(Number(poap.endDate) * 1000).toLocaleDateString()}
                           </Text>
                         </View>
                       </View>
-                      <TouchableOpacity 
-                        style={styles.participateButton}
-                        onPress={(e) => {
-                          e.stopPropagation();
-                          handleParticipate(poap);
-                        }}
-                      >
-                        <MaterialIcons name="add-circle-outline" size={20} color="#fff" />
-                        <Text style={styles.participateButtonText}>Join</Text>
-                      </TouchableOpacity>
+                      {isOwner ? (
+                        <View style={styles.ownerStatsContainer}>
+                          <Text style={styles.ownerStatsText}>
+                            {Math.round((Number(poap.currentPeopleAttending) / Number(poap.maxPeople)) * 100)}% full
+                          </Text>
+                        </View>
+                      ) : (
+                        <TouchableOpacity 
+                          style={styles.participateButton}
+                          onPress={(e) => {
+                            e.stopPropagation();
+                            handleParticipate(poap);
+                          }}
+                        >
+                          <MaterialIcons name="add-circle-outline" size={20} color="#fff" />
+                          <Text style={styles.participateButtonText}>Join</Text>
+                        </TouchableOpacity>
+                      )}
                     </View>
                   </View>
                 </TouchableOpacity>

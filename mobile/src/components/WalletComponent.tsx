@@ -305,8 +305,8 @@ export function WalletComponent() {
                         <Text style={styles.poapDescription} numberOfLines={2}>
                           {poap.description}
                         </Text>
-                        <Text style={styles.poapDurability}>
-                          Durability: {poap.durability.toString()}
+                        <Text style={styles.poapAttendance}>
+                          {poap.currentPeopleAttending.toString()}/{poap.maxPeople.toString()} attending
                         </Text>
                       </TouchableOpacity>
                     ))}
@@ -369,8 +369,8 @@ export function WalletComponent() {
                         <Text style={styles.poapDescription} numberOfLines={2}>
                           {poap.description}
                         </Text>
-                        <Text style={styles.poapDurability}>
-                          Durability: {poap.durability.toString()}
+                        <Text style={styles.poapAttendance}>
+                          {poap.currentPeopleAttending.toString()}/{poap.maxPeople.toString()} attending
                         </Text>
                       </TouchableOpacity>
                     ))}
@@ -410,6 +410,7 @@ export function WalletComponent() {
               isLoading={isLoadingPoaps}
               error={poapsError}
               refetch={refetchPoaps}
+              userAddress={importedWallet?.address}
             />
           )}
         </>
@@ -514,8 +515,14 @@ export function WalletComponent() {
                     <Text style={styles.poapDetailsValue}>#{selectedPoap.id.toString()}</Text>
                   </View>
                   <View style={styles.poapDetailsRow}>
-                    <Text style={styles.poapDetailsLabel}>Durability:</Text>
-                    <Text style={styles.poapDetailsValue}>{selectedPoap.durability.toString()}</Text>
+                    <Text style={styles.poapDetailsLabel}>Attendance:</Text>
+                    <Text style={styles.poapDetailsValue}>{selectedPoap.currentPeopleAttending.toString()}/{selectedPoap.maxPeople.toString()}</Text>
+                  </View>
+                  <View style={styles.poapDetailsRow}>
+                    <Text style={styles.poapDetailsLabel}>Event Period:</Text>
+                    <Text style={styles.poapDetailsValue}>
+                      {new Date(Number(selectedPoap.startDate) * 1000).toLocaleDateString()} - {new Date(Number(selectedPoap.endDate) * 1000).toLocaleDateString()}
+                    </Text>
                   </View>
                   <View style={styles.poapDetailsRow}>
                     <Text style={styles.poapDetailsLabel}>Owner:</Text>

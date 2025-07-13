@@ -6,7 +6,10 @@ export interface POAP {
   name: string;
   description: string;
   imageIPFS: string;
-  durability: Number;
+  startDate: Number;
+  endDate: Number;
+  maxPeople: Number;
+  currentPeopleAttending: Number;
   owner: string;
 }
 
@@ -53,7 +56,7 @@ export class ContractService {
         }) as any;
         const { result } = await response.json();
         const abi = [
-          "function getPOAPs() view returns (tuple(uint256, string, string, string, uint256, address)[])",
+          "function getPOAPs() view returns (tuple(uint256, string, string, string, uint256, uint256, uint256, uint256, address)[])",
         ];
         const iface = new ethers.Interface(abi);
         const gotPoaps = iface.decodeFunctionResult("getPOAPs", result);
@@ -62,14 +65,16 @@ export class ContractService {
           name: item[1],
           description: item[2],
           imageIPFS: item[3],
-          durability: Number(item[4]),
-          owner: item[5],
+          startDate: Number(item[4]),
+          endDate: Number(item[5]),
+          maxPeople: Number(item[6]),
+          currentPeopleAttending: Number(item[7]),
+          owner: item[8],
       }));
         poaps = poapArray;
     } catch (error) {
       console.log(`POAPs not found or failed to fetch`);
     }
-    
     return poaps;
   }
 
