@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import FloatingParticles from '../components/FloatingParticles';
 
 export default function About() {
@@ -32,16 +33,16 @@ export default function About() {
         </p>
 
         <p className="text-lg text-gray-300 mb-12 leading-relaxed">
-          Whether you're a hardcore fan, a collector, or simply curious about the future of fandom in Web3, this project is for you. Join us, start collecting, and let your passion shine on-chain.
+          Whether you&apos;re a hardcore fan, a collector, or simply curious about the future of fandom in Web3, this project is for you. Join us, start collecting, and let your passion shine on-chain.
         </p>
 
         <div className="flex justify-center">
-          <a
+          <Link
             href="/"
             className="px-10 py-4 bg-[#ff004f] text-white font-normal rounded-full hover:bg-white hover:text-[#ff004f] transition"
           >
             Back to Home
-          </a>
+          </Link>
         </div>
 
       </div>

@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Navbar from './components/Navbar';
 import Partners from './components/Partners';
 import Footbar from './components/Footbar';
-import PlayersCards from './components/PlayersCards';
 import { Zap, Shield, Trophy, Users, ArrowRight, PlayCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import HoloCard from './components/HoloCard';
@@ -126,12 +126,14 @@ export default function Home() {
                 Each POAP captures a moment worth remembering. Scan, collect, and revisit the energy of the game.
               </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {poapData.map((poap, i) => (
+          {poapData.map((poap) => (
             <HoloCard key={poap.id}>
               <div className="flex flex-col items-center text-center">
-                <img
+                <Image
                   src={poap.image}
                   alt={poap.title}
+                  width={300}
+                  height={300}
                   className="rounded-xl w-full h-auto object-cover mb-4"
                 />
                 <p className="text-white font-semibold text-sm mb-1">{poap.title}</p>

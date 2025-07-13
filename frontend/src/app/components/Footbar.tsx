@@ -1,4 +1,5 @@
 import { FaDiscord, FaTelegramPlane, FaGithub } from 'react-icons/fa';
+import Image from 'next/image';
 
 const Footbar = () => {
   return (
@@ -38,7 +39,7 @@ const Footbar = () => {
 
           <div className="mt-8 md:mt-0 flex flex-col items-start md:items-end text-xs text-gray-400">
             <div className="flex items-center gap-2 mb-2">
-              <img src="/chili-pocket.png" alt="Logo" className="h-5 opacity-60" />
+              <Image src="/chili-pocket.png" alt="Logo" width={20} height={20} className="h-5 opacity-60" />
               <span>&copy; 2025 ChiliPocket — All Rights Reserved</span>
             </div>
 

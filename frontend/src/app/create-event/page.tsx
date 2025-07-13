@@ -49,9 +49,9 @@ const CreateEventPage = () => {
             method: 'wallet_switchEthereumChain',
             params: [{ chainId: expectedChainId }],
           });
-        } catch (switchError: any) {
+        } catch (switchError: unknown) {
           // If network doesn't exist, add it
-          if (switchError.code === 4902) {
+          if ((switchError as { code?: number }).code === 4902) {
             await window.ethereum.request({
               method: 'wallet_addEthereumChain',
               params: [{
