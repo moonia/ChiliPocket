@@ -16,7 +16,7 @@ const Partners = () => {
   return (
     <div>
       <div className="text-center mb-4">
-        <h2 className="text-[12px] font-light mb-4 text-purple-300">
+        <h2 className="text-[12px] font-light mb-4 text-purple-200">
           A project made with{" "}
           <span className="inline-block">
             <Image
@@ -30,7 +30,7 @@ const Partners = () => {
           blockchain and love
         </h2>
       </div>
-      <div className="bg-gradient-to-r from-[#2d1b69] to-[#4c1d95] py-2 px-8">
+      <div className="backdrop-blur-md bg-transparent py-2 px-8">
         <Marquee speed={50} gradient={false} className="opacity-90">
           {partners.map((partner) => (
             <div

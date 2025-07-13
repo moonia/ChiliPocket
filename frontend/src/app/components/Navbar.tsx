@@ -1,20 +1,27 @@
 const Navbar = () => {
   return (
-    <nav className="flex justify-between items-center px-6 py-4">
-      <div className="flex items-center">
-        <img src="/chili-pocket.png" alt="ChiliPocket Logo" className="h-16 w-auto" />
+    <nav className="fixed top-0 left-0 w-full z-50 bg-[#0f0c29]/80 backdrop-blur-md border-b border-[#232334] px-6 py-5">
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <img src="/chili-pocket.png" alt="ChiliPocket Logo" className="h-10 w-auto drop-shadow" />
+          <span className="text-lg font-semibold text-transparent bg-clip-text bg-white">
+            ChiliPocket
+          </span>
+        </div>
+
+        <ul className="hidden md:flex gap-6 text-sm font-normal absolute left-1/2 -translate-x-1/2">
+          <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Home</a></li>
+          <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Collections</a></li>
+          <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Scan</a></li>
+          <li><a href="#" className="text-gray-300 hover:text-white transition-colors">About</a></li>
+        </ul>
+
+        <button className="px-8 py-2 text-white border border-[#ff004f] bg-[#ff004f] rounded-full text-sm font-medium hover:text-[#ff004f] hover:bg-white hover:border-[#ff004f] transition-all">
+          Connect Wallet
+        </button>
       </div>
-      <ul className="flex gap-6">
-        <li><a href="#" className="hover:underline">Home</a></li>
-        <li><a href="#" className="hover:underline">Collections</a></li>
-        <li><a href="#" className="hover:underline">Scan</a></li>
-        <li><a href="#" className="hover:underline">About</a></li>
-      </ul>
-      <button className="border border-white px-4 py-1 rounded-full text-sm hover:bg-white hover:text-black transition">
-        Connect Wallet
-      </button>
     </nav>
-  )
+  );
 };
 
 export default Navbar;
