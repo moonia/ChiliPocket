@@ -1,0 +1,32 @@
+name: Deploy to Chiliz Testnet
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Authenticate with Thirdweb
+        run: npx thirdweb login --key ${{ secrets.THIRDWEB_SECRET_KEY }}
+
+      - name: Deploy contract to Chiliz Testnet
+        run: |
+          npx thirdweb deploy \
+            --contract PoapFactory \
+            --network chiliz-sepolia \
+            --private-key ${{ secrets.PRIVATE_KEY }}
