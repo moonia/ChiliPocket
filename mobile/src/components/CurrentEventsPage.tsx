@@ -1,31 +1,39 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, TextInput, Alert } from 'react-native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
-import { usePoaps } from '../hooks/usePoaps';
-import { useWallet } from '../hooks/useWallet';
 import { POAP } from '../services/contractService';
 import { styles } from '../styles/styles';
 
 interface CurrentEventsPageProps {
   onPoapPress: (poap: POAP) => void;
+  allPoaps: POAP[];
+  myPoaps: POAP[];
+  isLoading: boolean;
+  error: string | null;
+  refetch: () => Promise<void>;
 }
 
-export function CurrentEventsPage({ onPoapPress }: CurrentEventsPageProps) {
+export function CurrentEventsPage({ 
+  onPoapPress, 
+  allPoaps, 
+  myPoaps, 
+  isLoading: isLoadingPoaps, 
+  error: poapsError, 
+  refetch: refetchPoaps 
+}: CurrentEventsPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMode, setFilterMode] = useState<'all' | 'new' | 'ending_soon' | 'high_durability'>('all');
-  
-  const { importedWallet } = useWallet();
-  const {
-    poaps: allPoaps,
-    myPoaps,
-    isLoading: isLoadingPoaps,
-    error: poapsError,
-    refetch: refetchPoaps,
-  } = usePoaps(importedWallet?.address);
+
+  console.log('CurrentEventsPage - allPoaps from props:', allPoaps);
+  console.log('CurrentEventsPage - myPoaps from props:', myPoaps);
+  console.log('CurrentEventsPage - isLoading from props:', isLoadingPoaps);
+  console.log('CurrentEventsPage - error from props:', poapsError);
 
   const myPoapIds = new Set(myPoaps.map(poap => poap.id.toString()));
   
   const availableEvents = allPoaps.filter(poap => !myPoapIds.has(poap.id.toString()));
+  
+  console.log('CurrentEventsPage - availableEvents:', availableEvents);
 
   const filteredEvents = availableEvents.filter(poap => {
     const matchesSearch = poap.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

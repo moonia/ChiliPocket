@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { usePoaps } from '../hooks/usePoaps';
-import { useWallet } from '../hooks/useWallet';
 import { POAP } from '../services/contractService';
 import { styles } from '../styles/styles';
 
 interface OwnedPageProps {
   onPoapPress: (poap: POAP) => void;
+  myPoaps: POAP[];
+  isLoading: boolean;
+  error: string | null;
+  refetch: () => Promise<void>;
 }
 
-export function OwnedPage({ onPoapPress }: OwnedPageProps) {
+export function OwnedPage({ 
+  onPoapPress, 
+  myPoaps, 
+  isLoading: isLoadingPoaps, 
+  error: poapsError, 
+  refetch: refetchPoaps 
+}: OwnedPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMode, setFilterMode] = useState<'all' | 'recent' | 'high_durability'>('all');
-  
-  const { importedWallet } = useWallet();
-  const {
-    myPoaps,
-    isLoading: isLoadingPoaps,
-    error: poapsError,
-    refetch: refetchPoaps,
-  } = usePoaps(importedWallet?.address);
 
+  console.log('OwnedPage - myPoaps from props:', myPoaps);
+  console.log('OwnedPage - isLoading from props:', isLoadingPoaps);
+  console.log('OwnedPage - error from props:', poapsError);
+
+  console.log('🔍 OwnedPage searchQuery:', searchQuery);
+  
   const filteredPoaps = myPoaps.filter(poap => {
     const matchesSearch = poap.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          poap.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -30,13 +36,16 @@ export function OwnedPage({ onPoapPress }: OwnedPageProps) {
     
     switch (filterMode) {
       case 'recent':
-        return true; // Could implement date-based filtering if timestamps are available
+        return true;
       case 'high_durability':
         return Number(poap.durability) > 50;
       default:
         return true;
     }
   });
+  
+  console.log('🔍 OwnedPage filteredPoaps:', filteredPoaps);
+  console.log('🔍 OwnedPage filteredPoaps length:', filteredPoaps.length);
 
   const getStatsData = () => {
     const totalPoaps = myPoaps.length;
@@ -177,7 +186,7 @@ export function OwnedPage({ onPoapPress }: OwnedPageProps) {
             <Text style={styles.emptyStateSubtitle}>
               {searchQuery 
                 ? 'Try adjusting your search or filters' 
-                : 'Start participating in events to earn your first POAP!'
+                : 'You can create your own event using Chilli Pocket whenever you want!'
               }
             </Text>
             {searchQuery && (

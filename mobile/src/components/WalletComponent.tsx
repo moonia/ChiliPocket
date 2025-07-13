@@ -38,6 +38,11 @@ export function WalletComponent() {
     refetch: refetchPoaps,
   } = usePoaps(importedWallet?.address);
 
+  console.log('🎯 WalletComponent - importedWallet:', importedWallet);
+  console.log('🎯 WalletComponent - wallet address:', importedWallet?.address);
+  console.log('🎯 WalletComponent - myPoaps count:', myPoaps?.length);
+  console.log('🎯 WalletComponent - allPoaps count:', allPoaps?.length);
+
   const handleCreateWallet = () => {
     console.log('Create new wallet');
   };
@@ -81,8 +86,9 @@ export function WalletComponent() {
     console.log('Current allPoaps count:', allPoaps.length);
     
     setCurrentPage(page);
-    // Refresh data when switching to owned or events pages
-    if (page === 'owned' || page === 'events') {
+    
+    // Always refresh data when switching to ensure fresh data
+    if (importedWallet?.address) {
       console.log('Triggering refetch for page:', page);
       await refetchPoaps();
     }
@@ -387,11 +393,24 @@ export function WalletComponent() {
           )}
 
           {currentPage === 'owned' && (
-            <OwnedPage onPoapPress={handlePoapPress} />
+            <OwnedPage 
+              onPoapPress={handlePoapPress}
+              myPoaps={myPoaps}
+              isLoading={isLoadingPoaps}
+              error={poapsError}
+              refetch={refetchPoaps}
+            />
           )}
 
           {currentPage === 'events' && (
-            <CurrentEventsPage onPoapPress={handlePoapPress} />
+            <CurrentEventsPage 
+              onPoapPress={handlePoapPress}
+              allPoaps={allPoaps}
+              myPoaps={myPoaps}
+              isLoading={isLoadingPoaps}
+              error={poapsError}
+              refetch={refetchPoaps}
+            />
           )}
         </>
       ) : (
