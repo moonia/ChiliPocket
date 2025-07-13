@@ -38,11 +38,6 @@ export function WalletComponent() {
     refetch: refetchPoaps,
   } = usePoaps(importedWallet?.address);
 
-  console.log('🎯 WalletComponent - importedWallet:', importedWallet);
-  console.log('🎯 WalletComponent - wallet address:', importedWallet?.address);
-  console.log('🎯 WalletComponent - myPoaps count:', myPoaps?.length);
-  console.log('🎯 WalletComponent - allPoaps count:', allPoaps?.length);
-
   const handleCreateWallet = () => {
     console.log('Create new wallet');
   };
@@ -74,22 +69,16 @@ export function WalletComponent() {
   };
 
   const handlePoapPress = (poap: POAP) => {
-    console.log('Selected POAP:', poap);
     setSelectedPoap(poap);
     setPoapDetailsVisible(true);
   };
 
   const handlePageChange = async (page: 'home' | 'owned' | 'events') => {
-    console.log('Switching to page:', page);
-    console.log('Current wallet address:', importedWallet?.address);
-    console.log('Current myPoaps count:', myPoaps.length);
-    console.log('Current allPoaps count:', allPoaps.length);
     
     setCurrentPage(page);
     
     // Always refresh data when switching to ensure fresh data
     if (importedWallet?.address) {
-      console.log('Triggering refetch for page:', page);
       await refetchPoaps();
     }
   };
@@ -533,9 +522,6 @@ export function WalletComponent() {
                       {selectedPoap.owner && (
                         <TouchableOpacity 
                           onPress={() => {
-                            console.log('Copy button pressed for owner:', selectedPoap.owner);
-                            console.log('Current user address:', importedWallet?.address);
-                            console.log('Is same owner?', selectedPoap.owner.toLowerCase() === importedWallet?.address.toLowerCase());
                             copyOwnerAddress(selectedPoap.owner);
                           }}
                           style={styles.copyOwnerButton}

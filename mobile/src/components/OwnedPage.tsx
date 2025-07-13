@@ -21,12 +21,6 @@ export function OwnedPage({
 }: OwnedPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMode, setFilterMode] = useState<'all' | 'recent' | 'owned_events'>('all');
-
-  console.log('OwnedPage - myPoaps from props:', myPoaps);
-  console.log('OwnedPage - isLoading from props:', isLoadingPoaps);
-  console.log('OwnedPage - error from props:', poapsError);
-
-  console.log('🔍 OwnedPage searchQuery:', searchQuery);
   
   const filteredPoaps = myPoaps.filter(poap => {
     const matchesSearch = poap.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,9 +40,6 @@ export function OwnedPage({
         return true;
     }
   });
-  
-  console.log('🔍 OwnedPage filteredPoaps:', filteredPoaps);
-  console.log('🔍 OwnedPage filteredPoaps length:', filteredPoaps.length);
 
   const getStatsData = () => {
     const totalPoaps = myPoaps.length;
