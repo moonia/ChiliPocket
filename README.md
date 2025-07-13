@@ -61,11 +61,12 @@ npm install
 npm run dev
 ````
 
-### Backend
+### Image Hosting – IPFS & Pinata
 
-```
-// todo
-```
+All product or user images used in the application are stored on IPFS (InterPlanetary File System) to ensure decentralized, tamper-resistant storage.
+We use Pinata as our IPFS pinning service to upload, manage, and persist these files across the network.
+
+When a new image is uploaded, it's pinned to IPFS via Pinata and the resulting CID (Content Identifier) is stored and referenced by the application.
 
 ## 📣 Future Ideas
 
