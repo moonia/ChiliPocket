@@ -10,6 +10,33 @@ import { motion } from 'framer-motion';
 import HoloCard from './components/HoloCard';
 import FloatingParticles from './components/FloatingParticles';
 
+const poapData = [
+  {
+    id: 1,
+    image: '/poapExamples/1.png',
+    title: 'Parc des Princes',
+    description: 'Commemorates your presence at a legendary night in Paris. Home to PSG and decades of football history, this POAP marks your connection to one of Europe’s most iconic stadiums.',
+  },
+  {
+    id: 2,
+    image: '/poapExamples/2.png',
+    title: 'Estadi Olímpic Lluís Companys',
+    description: 'Issued during a special matchday at Barcelona’s Olympic Stadium. This POAP ties you to a venue rich in sports heritage and passion from the Catalan capital.',
+  },
+  {
+    id: 3,
+    image: '/poapExamples/3.png',
+    title: 'Juventus Stadium',
+    description: 'A symbol of loyalty and black & white glory. This POAP proves you were there for the electric atmosphere in Turin, witnessing the Old Lady in action.',
+  },
+  {
+    id: 4,
+    image: '/poapExamples/4.png',
+    title: 'Mercedes-Benz Stadium',
+    description: 'Minted for those who experienced the thrill of a major match or event in this modern US stadium. A digital badge from the heart of Atlanta’s sports scene.',
+  },
+];
+
 interface FadeInSectionProps {
   delay: number;
   children: React.ReactNode;
@@ -61,7 +88,7 @@ export default function Home() {
 
         <FadeInSection delay={0.1}>
           <section className="text-center px-6 mt-10 py-16">
-            <div className="max-w-4xl mx-auto mt-10">
+            <div className="max-w-6xl mx-auto mt-10 mb-10">
               <h1 className="text-4xl md:text-5xl font-extrabold leading-snug mb-6 text-white">
                 FEEL THE GAME.<br />
                 <span className="text-white">EARN CARDS, SHARE PASSION</span>
@@ -82,66 +109,40 @@ export default function Home() {
                   <span>Watch Demo</span>
                 </button>
               </div>
-              <div className="flex justify-center gap-12 mt-16 text-center">
-                {[['9.5K+', 'Events'], ['90K+', 'NFT Cards'], ['1K+', 'Community']].map(([num, label], i) => (
-                  <div key={i} className="group cursor-pointer">
-                    <div className="text-4xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-1">
-                      {num}
-                    </div>
-                    <div className="text-sm uppercase tracking-wider text-gray-400 group-hover:text-white transition-colors">
-                      {label}
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </section>
         </FadeInSection>
 
-        <FadeInSection delay={0.3}><PlayersCards /></FadeInSection>
+        {/* <FadeInSection delay={0.3}><PlayersCards /></FadeInSection> */}
         <FadeInSection delay={0.5}><Partners /></FadeInSection>
 
-        <FadeInSection delay={0.6}>
-          <section className="mt-40 px-6 py-32">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-24">
-                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">PLAY, SCAN, COLLECT, PROGRESS</h2>
-                <p className="text-lg text-gray-400">
-                  A gamified, decentralized collectible experience
-                </p>
+        <FadeInSection delay={1.1}>
+          <section className="px-6 py-32">
+            <div className="max-w-6xl mx-auto text-center">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-12">
+                ✨ Sample POAPs from Real Events
+              </h2>
+              <p className="text-md text-gray-400 max-w-3xl mx-auto mb-16">
+                Each POAP captures a moment worth remembering. Scan, collect, and revisit the energy of the game.
+              </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {poapData.map((poap, i) => (
+            <HoloCard key={poap.id}>
+              <div className="flex flex-col items-center text-center">
+                <img
+                  src={poap.image}
+                  alt={poap.title}
+                  className="rounded-xl w-full h-auto object-cover mb-4"
+                />
+                <p className="text-white font-semibold text-sm mb-1">{poap.title}</p>
+                <p className="text-gray-400 text-xs leading-snug">{poap.description}</p>
               </div>
-              <div className="grid md:grid-cols-3 gap-12">
-                {[
-                  {
-                    icon: <Trophy className="w-7 h-7 text-white" />, 
-                    title: 'Earn NFT Cards',
-                    desc: 'Scan your match tickets, complete quests and unlock blockchain-based collectibles that are truly yours.',
-                  },
-                  {
-                    icon: <Shield className="w-7 h-7 text-white" />, 
-                    title: 'Connect Your Wallet',
-                    desc: 'Effortlessly access Web3 via MetaMask or WalletConnect and start collecting instantly.',
-                  },
-                  {
-                    icon: <Users className="w-7 h-7 text-white" />, 
-                    title: 'Collect & Rise',
-                    desc: 'Trade, share, and shine on the leaderboard with unique NFTs representing your fandom.',
-                  },
-                ].map(({ icon, title, desc }, i) => (
-                  <HoloCard key={i}>
-                    <div className="flex flex-col items-start">
-                      <div className="mb-6 w-14 h-14 rounded-full flex items-center justify-center bg-[#1f1f29]">
-                        {icon}
-                      </div>
-                      <h3 className="text-white text-lg font-semibold mb-2">{title}</h3>
-                      <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
-                    </div>
-                  </HoloCard>
-                ))}
-              </div>
-            </div>
-          </section>
-        </FadeInSection>
+            </HoloCard>
+          ))}
+          </div>
+          </div>
+        </section>
+      </FadeInSection>
 
         <FadeInSection delay={1.3}>
           <section className="px-6 py-32">
@@ -195,6 +196,48 @@ export default function Home() {
               <p className="text-sm text-gray-500 mt-16">
                 🔗 These POAPs are minted on <span className="text-white font-medium">Chiliz</span> — the blockchain infrastructure powering major sports experiences.
               </p>
+            </div>
+          </section>
+        </FadeInSection>
+
+        <FadeInSection delay={0.6}>
+          <section className="mt-40 px-6 py-32">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-24">
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">PLAY, SCAN, COLLECT, PROGRESS</h2>
+                <p className="text-lg text-gray-400">
+                  A gamified, decentralized collectible experience
+                </p>
+              </div>
+              <div className="grid md:grid-cols-3 gap-12">
+                {[
+                  {
+                    icon: <Trophy className="w-7 h-7 text-white" />, 
+                    title: 'Earn NFT Cards',
+                    desc: 'Scan your match tickets, complete quests and unlock blockchain-based collectibles that are truly yours.',
+                  },
+                  {
+                    icon: <Shield className="w-7 h-7 text-white" />, 
+                    title: 'Connect Your Wallet',
+                    desc: 'Effortlessly access Web3 via MetaMask or WalletConnect and start collecting instantly.',
+                  },
+                  {
+                    icon: <Users className="w-7 h-7 text-white" />, 
+                    title: 'Collect & Rise',
+                    desc: 'Trade, share, and shine on the leaderboard with unique NFTs representing your fandom.',
+                  },
+                ].map(({ icon, title, desc }, i) => (
+                  <HoloCard key={i}>
+                    <div className="flex flex-col items-start">
+                      <div className="mb-6 w-14 h-14 rounded-full flex items-center justify-center bg-[#1f1f29]">
+                        {icon}
+                      </div>
+                      <h3 className="text-white text-lg font-semibold mb-2">{title}</h3>
+                      <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
+                    </div>
+                  </HoloCard>
+                ))}
+              </div>
             </div>
           </section>
         </FadeInSection>
