@@ -10,7 +10,7 @@ const Footbar = () => {
             <div className="flex flex-wrap gap-x-6 gap-y-3 font-medium text-gray-500">
               <a href="#">List of POAPs</a>
               <a href="#">Submit a POAP</a>
-              <a href="#">Glossary</a>
+              <a href="#">About</a>
               <a href="#">Report a Security Issue</a>
               <span className="hidden md:inline">|</span>
               <a href="#">The Team</a>
@@ -24,8 +24,6 @@ const Footbar = () => {
               <a href="#">Cookies Policy</a>
               <a href="#">Manage Cookies</a>
               <a href="#">Privacy Policy</a>
-              <a href="#">Staking Risk Disclosure</a>
-              <a href="#">Recruitment Privacy Policy</a>
             </div>
           </div>
 

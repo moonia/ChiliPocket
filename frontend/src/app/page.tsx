@@ -206,8 +206,8 @@ export default function Home() {
               <p className="text-lg text-gray-400 mb-12">
                 Join thousands of collectors already on the chain. Mint, play, and rise.
               </p>
-              <button className="px-10 py-4 bg-[#ff004f] text-white font-semibold rounded-full hover:bg-white hover:text-[#ff004f] transition">
-                Start Now
+              <button className="px-10 py-4 bg-[#ff004f] text-white font-normal rounded-full hover:bg-white hover:text-[#ff004f] transition">
+                START NOW
               </button>
             </div>
           </section>
