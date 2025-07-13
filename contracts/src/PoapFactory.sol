@@ -9,13 +9,14 @@ contract PoapFactory is ERC721URIStorage, Ownable {
     uint256 public nextClaimId = 1;
 
     struct PoapMetadata {
+        uint256 id;
         string name;
         string description;
         string imageIPFS;
         uint256 durability;
     }
 
-    mapping(uint256 => PoapMetadata) public poaps;
+    mapping(uint256 => PoapMetadata) private poaps;
     mapping(address => mapping(uint256 => bool)) public hasClaimed;
     mapping(uint256 => uint256) public claimedFrom;
     mapping(uint256 => uint256) public poapClaimsCount;
@@ -35,6 +36,10 @@ contract PoapFactory is ERC721URIStorage, Ownable {
 
     constructor() ERC721("POAP", "POAP") Ownable(msg.sender) {}
 
+    function getPoaps() public view returns (PoapMetadata[] memory) {
+        return poaps;
+    }
+
     function createPoap(
         string memory name,
         string memory description,
@@ -43,7 +48,7 @@ contract PoapFactory is ERC721URIStorage, Ownable {
         uint256 durability
     ) public onlyOwner {
         uint256 poapId = nextPoapId;
-        poaps[poapId] = PoapMetadata(name, description, imageIPFS, durability);
+        poaps[poapId] = PoapMetadata(poapId, name, description, imageIPFS, durability);
 
         _mint(msg.sender, poapId);
         _setTokenURI(poapId, metadataURI);
