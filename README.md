@@ -48,7 +48,42 @@ forge install OpenZeppelin/openzeppelin-foundry-upgrades
 forge install OpenZeppelin/openzeppelin-contracts-upgradeable
 ```
 
-Smart contracts can be deployed using Foundry.
+### Smart Contract Deployment
+We use Thirdweb for an efficient and developer-friendly deployment workflow of our smart contracts on the Chiliz Chain.
+
+#### Install the CLI
+To get started, install the Thirdweb CLI as a dev dependency:
+
+```
+npm install --save-dev @thirdweb-dev/cli
+```
+
+#### Deploy via CLI
+Once your contract is ready, deploy it using:
+
+```
+npx thirdweb deploy -k $THIRDWEB_SECRET_KEY
+```
+
+This will deploy the smart contract to the specified network (e.g., Chiliz Spicy testnet) and return the contract address.
+
+> Make sure you’ve set your THIRDWEB_SECRET_KEY in your .env file.
+
+#### Testing Interactions
+
+You can test contract functions via:
+- The Thirdweb web dashboard
+- Using CLI tools like cast from Foundry:
+
+```
+cast send <DEPLOYED_CONTRACT_ADDRESS> "functionName(type1 arg1, type2 arg2, ...)" \
+  --private-key <YOUR_METAMASK_PRIVATE_KEY> \
+  --rpc-url https://chiliz-spicy.publicnode.com \
+  --gas-price <SOME_GWEI> \
+  --gas-limit <GAS_LIMIT>
+```
+
+Replace the placeholders with actual values according to your smart contract.
 
 ### Frontend
 
