@@ -94,7 +94,44 @@ Then you just need to install the dependencies and start the project:
 ```
 npm install
 npm run dev
-````
+```
+
+### Mobile
+
+ChiliPocket is designed to work smoothly on mobile devices, especially for users scanning NFC tags at live events to mint their POAPs.
+
+**Core mobile features:**
+
+- NFC tag reading to trigger POAP minting
+
+- Wallet connection (MetaMask Mobile, WalletConnect)
+
+- POAP gallery and user dashboard
+
+#### Manual Mobile Setup (PWA or Mobile Browser)
+
+To test the project on mobile manually:
+
+1. Run the project locally:
+
+```
+npm run dev
+```
+
+2. Access the app from your phone:
+
+- Make sure your phone is on the same Wi-Fi network as your computer
+
+- Find your local IP address (e.g., 192.168.1.25)
+
+- Open a browser on your phone and go to:
+http://192.168.1.25:3000
+
+3. Add to Home Screen (PWA):
+
+- On iOS (Safari) or Android (Chrome), tap “Add to Home Screen”
+
+> This makes the app feel like a native experience
 
 ### Image Hosting – IPFS & Pinata
 
