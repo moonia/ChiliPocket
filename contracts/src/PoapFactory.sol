@@ -21,6 +21,7 @@ contract PoapFactory is ERC721URIStorage, Ownable {
     mapping(address => mapping(uint256 => bool)) public hasClaimed;
     mapping(uint256 => uint256) public claimedFrom;
     mapping(uint256 => uint256) public poapClaimsCount;
+    mapping(address => uint256[]) public userClaimedIds;
 
     event PoapCreated(
         uint256 indexed poapId,
@@ -86,9 +87,22 @@ contract PoapFactory is ERC721URIStorage, Ownable {
         hasClaimed[msg.sender][poapId] = true;
         claimedFrom[newTokenId] = poapId;
         poapClaimsCount[poapId]++;
+        userClaimedIds[msg.sender].push(newTokenId);
 
         emit PoapClaimed(poapId, msg.sender, newTokenId);
 
         nextClaimId++;
+    }
+
+    function getParticipatedPoaps(address user) public view returns (PoapMetadata[] memory) {
+        uint256[] memory tokenIds = userClaimedIds[user];
+        PoapMetadata[] memory result = new PoapMetadata[](tokenIds.length);
+
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            uint256 poapId = claimedFrom[tokenIds[i]];
+            result[i] = poaps[poapId];
+        }
+
+        return result;
     }
 }
