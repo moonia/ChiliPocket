@@ -52,17 +52,14 @@ Smart contracts can be deployed using Foundry.
 
 ### Frontend
 
-Duplicate the .env.example file into .env and fill the required variables:
-
-```
-// todo
-```
+Duplicate the .env.example file into .env and fill the required variables based on your environment.
 
 Then you just need to install the dependencies and start the project:
 
 ```
-// todo
-```
+npm install
+npm run dev
+````
 
 ### Backend
 
