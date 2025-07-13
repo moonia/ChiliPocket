@@ -1,19 +1,29 @@
 "use client";
 
-import type { Metadata } from "next";
 import "./globals.css";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { Sepolia } from "@thirdweb-dev/chains";
 
-// export const metadata: Metadata = {
-//   title: "ChiliPocket",
-//   description: "ChiliPocket website",
-//   icons: {
-//     icon: "/chili-pocket.png",
-//     shortcut: "/chili-pocket.png",
-//     apple: "/chili-pocket.png",
-//   },
-// };
+const chilizSpicyTestnet = {
+  chainId: 88882,
+  name: "Chiliz Spicy Testnet",
+  chain: "Chiliz",
+  shortName: "CHZ",
+  slug: "chiliz-spicy-testnet",
+  nativeCurrency: {
+    name: "CHZ",
+    symbol: "CHZ",
+    decimals: 18,
+  },
+  rpc: [process.env.NEXT_PUBLIC_CHILIZ_RPC_URL || ""],
+  explorers: [
+    {
+      name: "Chiliz Spicy Explorer",
+      url: "https://spicy-explorer.chiliz.com",
+      standard: "EIP3091",
+    },
+  ],
+  testnet: true,
+};
 
 export default function RootLayout({
   children,
@@ -23,7 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThirdwebProvider activeChain={Sepolia}>
+        <ThirdwebProvider 
+          activeChain={chilizSpicyTestnet}
+          clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+        >
           {children}
         </ThirdwebProvider>
       </body>
